@@ -13,7 +13,7 @@
 
 [0-9]+                                      { yylval.integ = atoi(yytext); return INT; }
 [0-9]+\.[0-9]+                              { yylval.flt = atof(yytext); return FLT; }
-[0-9]+\.[0-9]+([eE][+-]?[0-9]+)?            { yylval.dbl = atof(yytext); return DBL; }
+// дабл будет добавлен позже
 "true"|"false"                              { yylval.boolian = (strcmp(yytext, "true") == 0); return BOOL; }
 '.'                                         { yylval.str = strdup(yytext); return CHR; }
 
