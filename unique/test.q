@@ -1,1 +1,2 @@
-double: var_1 = 23.3;
+int: a = 21;
+int: b = 32;
