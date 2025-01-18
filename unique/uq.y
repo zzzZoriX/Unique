@@ -24,6 +24,7 @@ extern FILE* yyin;
     float flt;
     double dbl;
     int boolian;
+    char chr;
     char* str;
     struct Variables* var;
     struct Val_types* types;
@@ -31,10 +32,11 @@ extern FILE* yyin;
 
 %token <str> TYPE 
 %token <var> IDENT
-%token ASSIGN SEMIC COLON
+%token ASSIGN SEMIC COLON LBRACKET RBRACKET
+%token INFO_PRINT
 
 %token <integ> INT
-%token <str> CHR
+%token <chr> CHR
 %token <flt> FLT
 %token <dbl> DBL
 %token <boolian> BOOL
@@ -43,8 +45,24 @@ extern FILE* yyin;
 
 %%
 
-variables: /* nothing */
-    | variables variable
+start: parse_objects;
+
+parse_objects:
+    variables
+    |
+    commands
+    ;
+
+variables:
+    variable
+    ;
+
+commands:
+    var_com
+    ;
+
+var_com:
+    var_info
     ;
 
 variable:
@@ -64,7 +82,7 @@ variable:
                 $3->value.float_value = $5->values.flt;
                 break;
             case CHAR_T:
-                $3->value.char_value = $5->values.str;
+                $3->value.char_value = $5->values.chr;
                 break;
             case DOUBLE_T:
                 $3->value.double_value = $5->values.dbl;
@@ -92,7 +110,7 @@ value:
     }
     | FLT { 
             $$ = malloc(sizeof(struct Val_types));
-            $$->values.flt = $1; 
+            $$->values.flt = $1;
     }
     | DBL { 
             $$ = malloc(sizeof(struct Val_types));
@@ -104,10 +122,25 @@ value:
     }
     | CHR { 
             $$ = malloc(sizeof(struct Val_types));
-            $$->values.str = strdup($1); 
+            $$->values.chr = $1; 
     }
     ;
 
+var_info:
+    INFO_PRINT LBRACKET IDENT RBRACKET SEMIC {
+        char* var_type = Define_type_for_write($3->type);
+        if($3->type == BOOL_T)
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %d\\ntype: %s\\n\");\n", $3->name, $3->value.bool_value, var_type);
+        else if(var_type == "float")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %f\\ntype: %s\\n\");\n", $3->name, $3->value.float_value, var_type);
+        else if(var_type == "double")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %lf\\ntype: %s\\n\");\n", $3->name, $3->value.double_value, var_type);
+        else if(var_type == "int")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %d\\ntype: %s\\n\");\n", $3->name, $3->value.int_value, var_type);
+        else if(var_type == "char")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %c\\ntype: %s\\n\");\n", $3->name, $3->value.char_value, var_type);
+    }
+    ;
 %%
 
 int yyerror(const char* err_m){
@@ -135,7 +168,7 @@ int main(int argc, char** argv){
 
     yyin = ifp;
 
-    fprintf(ofp, "#include <stdio.h>\n#include \"./include/types.h\"\n\nint main(){\n\n");
+    fprintf(ofp, "#include <stdio.h>\n#include <stdbool.h>\nint main(){\n");
 
     yyparse();
 

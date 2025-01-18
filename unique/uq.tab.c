@@ -124,15 +124,23 @@ enum yysymbol_kind_t
   YYSYMBOL_ASSIGN = 5,                     /* ASSIGN  */
   YYSYMBOL_SEMIC = 6,                      /* SEMIC  */
   YYSYMBOL_COLON = 7,                      /* COLON  */
-  YYSYMBOL_INT = 8,                        /* INT  */
-  YYSYMBOL_CHR = 9,                        /* CHR  */
-  YYSYMBOL_FLT = 10,                       /* FLT  */
-  YYSYMBOL_DBL = 11,                       /* DBL  */
-  YYSYMBOL_BOOL = 12,                      /* BOOL  */
-  YYSYMBOL_YYACCEPT = 13,                  /* $accept  */
-  YYSYMBOL_variables = 14,                 /* variables  */
-  YYSYMBOL_variable = 15,                  /* variable  */
-  YYSYMBOL_value = 16                      /* value  */
+  YYSYMBOL_LBRACKET = 8,                   /* LBRACKET  */
+  YYSYMBOL_RBRACKET = 9,                   /* RBRACKET  */
+  YYSYMBOL_INFO_PRINT = 10,                /* INFO_PRINT  */
+  YYSYMBOL_INT = 11,                       /* INT  */
+  YYSYMBOL_CHR = 12,                       /* CHR  */
+  YYSYMBOL_FLT = 13,                       /* FLT  */
+  YYSYMBOL_DBL = 14,                       /* DBL  */
+  YYSYMBOL_BOOL = 15,                      /* BOOL  */
+  YYSYMBOL_YYACCEPT = 16,                  /* $accept  */
+  YYSYMBOL_start = 17,                     /* start  */
+  YYSYMBOL_parse_objects = 18,             /* parse_objects  */
+  YYSYMBOL_variables = 19,                 /* variables  */
+  YYSYMBOL_commands = 20,                  /* commands  */
+  YYSYMBOL_var_com = 21,                   /* var_com  */
+  YYSYMBOL_variable = 22,                  /* variable  */
+  YYSYMBOL_value = 23,                     /* value  */
+  YYSYMBOL_var_info = 24                   /* var_info  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -458,21 +466,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  14
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   23
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  13
+#define YYNTOKENS  16
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  16
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  20
+#define YYNSTATES  30
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   267
+#define YYMAXUTOK   270
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -512,15 +520,16 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    47,    51,    57,    81,    89,    93,    97,
-     101,   105
+       0,    48,    48,    51,    53,    57,    61,    65,    69,    75,
+      99,   107,   111,   115,   119,   123,   130
 };
 #endif
 
@@ -537,8 +546,9 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "TYPE", "IDENT",
-  "ASSIGN", "SEMIC", "COLON", "INT", "CHR", "FLT", "DBL", "BOOL",
-  "$accept", "variables", "variable", "value", YY_NULLPTR
+  "ASSIGN", "SEMIC", "COLON", "LBRACKET", "RBRACKET", "INFO_PRINT", "INT",
+  "CHR", "FLT", "DBL", "BOOL", "$accept", "start", "parse_objects",
+  "variables", "commands", "var_com", "variable", "value", "var_info", YY_NULLPTR
 };
 
 static const char *
@@ -548,7 +558,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-9)
+#define YYPACT_NINF (-10)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -562,8 +572,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -9,     5,    -9,     3,     6,    -9,     8,     9,     1,    10,
-      -8,    -9,    -9,    -9,    -9,    -9,    -9,    -9,    11,    -9
+      -3,     4,     5,     6,    12,   -10,   -10,   -10,   -10,   -10,
+     -10,     9,    11,    13,   -10,     3,    10,    14,    -9,   -10,
+     -10,    15,   -10,   -10,   -10,   -10,   -10,    16,   -10,   -10
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -571,20 +582,21 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     0,     3,     0,     0,     0,     0,
-       0,     4,     6,     7,    11,     8,     9,    10,     0,     5
+       0,     0,     0,     0,     0,     2,     3,     4,     6,     5,
+       7,     0,     0,     0,     1,     0,     0,     0,     0,     8,
+      10,     0,    11,    15,    12,    13,    14,     0,    16,     9
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -9,    -9,    -9,    -9
+     -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     5,    18
+       0,     4,     5,     6,     7,     8,     9,    27,    10
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -592,36 +604,39 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      13,    14,    15,    16,    17,     2,    10,    11,     3,     4,
-       6,     7,     8,     9,     0,     0,    12,    19
+       1,     2,    22,    23,    24,    25,    26,     3,    18,    19,
+      12,    11,    14,    15,    13,    16,    20,    17,     0,     0,
+       0,    28,    29,    21
 };
 
 static const yytype_int8 yycheck[] =
 {
-       8,     9,    10,    11,    12,     0,     5,     6,     3,     4,
-       7,     5,     4,     4,    -1,    -1,     6,     6
+       3,     4,    11,    12,    13,    14,    15,    10,     5,     6,
+       5,     7,     0,     4,     8,     4,     6,     4,    -1,    -1,
+      -1,     6,     6,     9
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    14,     0,     3,     4,    15,     7,     5,     4,     4,
-       5,     6,     6,     8,     9,    10,    11,    12,    16,     6
+       0,     3,     4,    10,    17,    18,    19,    20,    21,    22,
+      24,     7,     5,     8,     0,     4,     4,     4,     5,     6,
+       6,     9,    11,    12,    13,    14,    15,    23,     6,     6
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    13,    14,    14,    15,    15,    15,    16,    16,    16,
-      16,    16
+       0,    16,    17,    18,    18,    19,    20,    21,    22,    22,
+      22,    23,    23,    23,    23,    23,    24
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     4,     6,     4,     1,     1,     1,
-       1,     1
+       0,     2,     1,     1,     1,     1,     1,     1,     4,     6,
+       4,     1,     1,     1,     1,     1,     5
 };
 
 
@@ -1084,19 +1099,19 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 4: /* variable: TYPE COLON IDENT SEMIC  */
-#line 51 "uq.y"
+  case 8: /* variable: TYPE COLON IDENT SEMIC  */
+#line 69 "uq.y"
                           {
         (yyvsp[-1].var)->type = Define_type((yyvsp[-3].str));
         
         Write_in_Output__Def_Var(ofp, (yyvsp[-1].var));
 
     }
-#line 1096 "uq.tab.c"
+#line 1111 "uq.tab.c"
     break;
 
-  case 5: /* variable: TYPE COLON IDENT ASSIGN value SEMIC  */
-#line 57 "uq.y"
+  case 9: /* variable: TYPE COLON IDENT ASSIGN value SEMIC  */
+#line 75 "uq.y"
                                          {
         (yyvsp[-3].var)->type = Define_type((yyvsp[-5].str));
         switch ((yyvsp[-3].var)->type) {
@@ -1107,7 +1122,7 @@ yyreduce:
                 (yyvsp[-3].var)->value.float_value = (yyvsp[-1].types)->values.flt;
                 break;
             case CHAR_T:
-                (yyvsp[-3].var)->value.char_value = (yyvsp[-1].types)->values.str;
+                (yyvsp[-3].var)->value.char_value = (yyvsp[-1].types)->values.chr;
                 break;
             case DOUBLE_T:
                 (yyvsp[-3].var)->value.double_value = (yyvsp[-1].types)->values.dbl;
@@ -1121,66 +1136,84 @@ yyreduce:
         }
         Write_in_Output__DefInit_Var(ofp, (yyvsp[-3].var));
     }
-#line 1125 "uq.tab.c"
+#line 1140 "uq.tab.c"
     break;
 
-  case 6: /* variable: IDENT ASSIGN IDENT SEMIC  */
-#line 81 "uq.y"
+  case 10: /* variable: IDENT ASSIGN IDENT SEMIC  */
+#line 99 "uq.y"
                                {
         Assign_to_another_var((yyvsp[-3].var), (yyvsp[-1].var));
 
         Write_in_Output__Redefine_Var(ofp, (yyvsp[-3].var), (yyvsp[-1].var));
     }
-#line 1135 "uq.tab.c"
+#line 1150 "uq.tab.c"
     break;
 
-  case 7: /* value: INT  */
-#line 89 "uq.y"
+  case 11: /* value: INT  */
+#line 107 "uq.y"
         { 
             (yyval.types) = malloc(sizeof(struct Val_types));
             (yyval.types)->values.integ = (yyvsp[0].integ); 
     }
-#line 1144 "uq.tab.c"
+#line 1159 "uq.tab.c"
     break;
 
-  case 8: /* value: FLT  */
-#line 93 "uq.y"
+  case 12: /* value: FLT  */
+#line 111 "uq.y"
           { 
             (yyval.types) = malloc(sizeof(struct Val_types));
-            (yyval.types)->values.flt = (yyvsp[0].flt); 
+            (yyval.types)->values.flt = (yyvsp[0].flt);
     }
-#line 1153 "uq.tab.c"
+#line 1168 "uq.tab.c"
     break;
 
-  case 9: /* value: DBL  */
-#line 97 "uq.y"
+  case 13: /* value: DBL  */
+#line 115 "uq.y"
           { 
             (yyval.types) = malloc(sizeof(struct Val_types));
             (yyval.types)->values.dbl = (yyvsp[0].dbl); 
     }
-#line 1162 "uq.tab.c"
+#line 1177 "uq.tab.c"
     break;
 
-  case 10: /* value: BOOL  */
-#line 101 "uq.y"
+  case 14: /* value: BOOL  */
+#line 119 "uq.y"
            { 
             (yyval.types) = malloc(sizeof(struct Val_types));
             (yyval.types)->values.boolian = (yyvsp[0].boolian); 
     }
-#line 1171 "uq.tab.c"
+#line 1186 "uq.tab.c"
     break;
 
-  case 11: /* value: CHR  */
-#line 105 "uq.y"
+  case 15: /* value: CHR  */
+#line 123 "uq.y"
           { 
             (yyval.types) = malloc(sizeof(struct Val_types));
-            (yyval.types)->values.str = strdup((yyvsp[0].str)); 
+            (yyval.types)->values.chr = (yyvsp[0].chr); 
     }
-#line 1180 "uq.tab.c"
+#line 1195 "uq.tab.c"
+    break;
+
+  case 16: /* var_info: INFO_PRINT LBRACKET IDENT RBRACKET SEMIC  */
+#line 130 "uq.y"
+                                             {
+        char* var_type = Define_type_for_write((yyvsp[-2].var)->type);
+        if((yyvsp[-2].var)->type == BOOL_T)
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %d\\ntype: %s\\n\");\n", (yyvsp[-2].var)->name, (yyvsp[-2].var)->value.bool_value, var_type);
+        else if(var_type == "float")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %f\\ntype: %s\\n\");\n", (yyvsp[-2].var)->name, (yyvsp[-2].var)->value.float_value, var_type);
+        else if(var_type == "double")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %lf\\ntype: %s\\n\");\n", (yyvsp[-2].var)->name, (yyvsp[-2].var)->value.double_value, var_type);
+        else if(var_type == "int")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %d\\ntype: %s\\n\");\n", (yyvsp[-2].var)->name, (yyvsp[-2].var)->value.int_value, var_type);
+        else if(var_type == "char")
+            fprintf(ofp, "printf(\"name: %s\\nvalue: %c\\ntype: %s\\n\");\n", (yyvsp[-2].var)->name, (yyvsp[-2].var)->value.char_value, var_type);
+    }
+#line 1213 "uq.tab.c"
     break;
 
 
-#line 1184 "uq.tab.c"
+#line 1217 "uq.tab.c"
 
       default: break;
     }
@@ -1373,7 +1406,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 111 "uq.y"
+#line 144 "uq.y"
 
 
 int yyerror(const char* err_m){
@@ -1401,7 +1434,7 @@ int main(int argc, char** argv){
 
     yyin = ifp;
 
-    fprintf(ofp, "#include <stdio.h>\n#include \"./include/types.h\"\n\nint main(){\n\n");
+    fprintf(ofp, "#include <stdio.h>\n#include <stdbool.h>\nint main(){\n");
 
     yyparse();
 

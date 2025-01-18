@@ -59,11 +59,14 @@ extern int yydebug;
     ASSIGN = 260,                  /* ASSIGN  */
     SEMIC = 261,                   /* SEMIC  */
     COLON = 262,                   /* COLON  */
-    INT = 263,                     /* INT  */
-    CHR = 264,                     /* CHR  */
-    FLT = 265,                     /* FLT  */
-    DBL = 266,                     /* DBL  */
-    BOOL = 267                     /* BOOL  */
+    LBRACKET = 263,                /* LBRACKET  */
+    RBRACKET = 264,                /* RBRACKET  */
+    INFO_PRINT = 265,              /* INFO_PRINT  */
+    INT = 266,                     /* INT  */
+    CHR = 267,                     /* CHR  */
+    FLT = 268,                     /* FLT  */
+    DBL = 269,                     /* DBL  */
+    BOOL = 270                     /* BOOL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -78,11 +81,12 @@ union YYSTYPE
     float flt;
     double dbl;
     int boolian;
+    char chr;
     char* str;
     struct Variables* var;
     struct Val_types* types;
 
-#line 86 "uq.tab.h"
+#line 90 "uq.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

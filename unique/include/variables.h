@@ -23,6 +23,8 @@ Define_type_int(Types type){
 /* 
 переопределяет значение перменной значением другой перменной 
 a = b
+
+не готова
 */
 void
 Assign_to_another_var(Variables* redef_var, Variables* redef_val_var){
@@ -31,7 +33,7 @@ Assign_to_another_var(Variables* redef_var, Variables* redef_val_var){
         printf("%d %d", redef_var->type, redef_val_var->type);
         return;
     }
-
+    printf("%d %d\n", Define_type_int(redef_var->type), Define_type_int(redef_val_var->type));
     redef_var->value = redef_val_var->value;
 }
 
