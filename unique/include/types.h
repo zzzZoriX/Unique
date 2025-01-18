@@ -14,7 +14,7 @@ typedef enum{
 } Types;
 
 /* структура перменной */
-typedef struct{
+typedef struct Variables{
     char* name;
     Types type;
     union{
@@ -28,7 +28,6 @@ typedef struct{
 
 /* для "val" в файле uq.y */
 typedef struct Val_types{
-    //enum { INT, CHR, FLT, DBL, BOOL } type;
     union{
         int integ;
         char* str;
@@ -37,21 +36,5 @@ typedef struct Val_types{
         int boolian;
     } values;
 } Val_types;
-
-
-/* определяет тип перменной или другого объекта */
-Types
-Define_type(const char* type){
-    if(strcmp(type, "int") == 0)
-        return INT_T;
-    else if(strcmp(type, "double") == 0)
-        return DOUBLE_T;
-    else if(strcmp(type, "float") == 0)
-        return FLOAT_T;
-    else if(strcmp(type, "boolian") == 0)
-        return BOOL_T;
-    else if(strcmp(type, "char") == 0)
-        return CHAR_T;
-}
 
 #endif

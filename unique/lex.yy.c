@@ -479,10 +479,13 @@ char *yytext;
 #line 2 "uq.l"
 
 #include <string.h>
+#include <stdlib.h>
 #include "uq.tab.h"
 
-#line 484 "lex.yy.c"
-#line 485 "lex.yy.c"
+#include "./include/types.h"
+
+#line 487 "lex.yy.c"
+#line 488 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -699,10 +702,10 @@ YY_DECL
 		}
 
 	{
-#line 10 "uq.l"
+#line 13 "uq.l"
 
 
-#line 705 "lex.yy.c"
+#line 708 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -761,71 +764,75 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "uq.l"
+#line 15 "uq.l"
 { yylval.str = strdup(yytext); return TYPE; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "uq.l"
+#line 17 "uq.l"
 { yylval.integ = atoi(yytext); return INT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "uq.l"
+#line 18 "uq.l"
 { yylval.flt = atof(yytext); return FLT; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "uq.l"
+#line 19 "uq.l"
 { yylval.dbl = atof(yytext); return DBL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 17 "uq.l"
+#line 20 "uq.l"
 { yylval.boolian = (strcmp(yytext, "true") == 0); return BOOL; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 18 "uq.l"
+#line 21 "uq.l"
 { yylval.str = strdup(yytext); return CHR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 20 "uq.l"
-{ return ASSIG; }
+#line 23 "uq.l"
+{ return ASSIGN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "uq.l"
+#line 24 "uq.l"
 { return SEMIC; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 22 "uq.l"
+#line 25 "uq.l"
 { return COLON; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "uq.l"
-{ yylval.str = strdup(yytext); return IDENT; } 
+#line 27 "uq.l"
+{ 
+                                                yylval.var = malloc(sizeof(Variables));
+                                                yylval.var->name = strdup(yytext); 
+                                                return IDENT; 
+                                            } 
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 26 "uq.l"
+#line 33 "uq.l"
 ; // nothing
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "uq.l"
+#line 35 "uq.l"
 printf("Unknown symbol \"%s\"\n", yytext);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "uq.l"
+#line 37 "uq.l"
 ECHO;
 	YY_BREAK
-#line 828 "lex.yy.c"
+#line 835 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1830,5 +1837,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 30 "uq.l"
+#line 37 "uq.l"
 

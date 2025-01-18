@@ -2,27 +2,37 @@
 #define VARIABLES_H
 
 #include "types.h"
+// #include "parse_func.h"
 
+int
+Define_type_int(Types type){
+    if(type == INT_T)
+        return 1;
+    else if(type == DOUBLE_T)
+        return 2;
+    else if(type == BOOL_T)
+        return 3;
+    else if(type == FLOAT_T)
+        return 4;
+    else if(type == CHAR_T)
+        return 5;
 
-/* создает перменную */
-Variables
-Define_variable(const char* TYPE, char* name){
-    Variables new_var;
+    return 6;
+}
 
-    if(TYPE == "int")
-        new_var.type = INT_T;
-    else if(TYPE == "boolian")
-        new_var.type = BOOL_T;
-    else if(TYPE == "float")
-        new_var.type = FLOAT_T;
-    else if(TYPE == "double")
-        new_var.type = DOUBLE_T;
-    else if(TYPE == "char")
-        new_var.type = CHAR_T;
+/* 
+переопределяет значение перменной значением другой перменной 
+a = b
+*/
+void
+Assign_to_another_var(Variables* redef_var, Variables* redef_val_var){
+    if(Define_type_int(redef_var->type) != Define_type_int(redef_val_var->type)){
+        fprintf(stderr, "Variables type don't match\n");
+        printf("%d %d", redef_var->type, redef_val_var->type);
+        return;
+    }
 
-    new_var.name = name;
-
-    return new_var;
+    redef_var->value = redef_val_var->value;
 }
 
 #endif

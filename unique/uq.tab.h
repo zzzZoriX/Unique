@@ -56,7 +56,7 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     TYPE = 258,                    /* TYPE  */
     IDENT = 259,                   /* IDENT  */
-    ASSIG = 260,                   /* ASSIG  */
+    ASSIGN = 260,                  /* ASSIGN  */
     SEMIC = 261,                   /* SEMIC  */
     COLON = 262,                   /* COLON  */
     INT = 263,                     /* INT  */
@@ -72,16 +72,17 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 25 "uq.y"
+#line 22 "uq.y"
 
     int integ;
     float flt;
     double dbl;
     int boolian;
     char* str;
+    struct Variables* var;
     struct Val_types* types;
 
-#line 85 "uq.tab.h"
+#line 86 "uq.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

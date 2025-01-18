@@ -1,2 +1,2 @@
-int: a = 21;
-int: b = 32;
+int: a = 12;
+boolian: b = true;

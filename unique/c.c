@@ -3,6 +3,7 @@
 
 int main(){
 
-  double var_1 = 0.000000;
-  return 0;
+int a = 12;
+int b = 1;
+return 0;
 }

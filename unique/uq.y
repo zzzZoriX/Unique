@@ -17,9 +17,6 @@ FILE* ofp;
 
 extern FILE* yyin;
 
-extern int Total_var_count;
-extern Variables All_vars[200];
-
 %}
 
 %union {
@@ -28,11 +25,13 @@ extern Variables All_vars[200];
     double dbl;
     int boolian;
     char* str;
+    struct Variables* var;
     struct Val_types* types;
 };
 
-%token <str> TYPE IDENT
-%token ASSIG SEMIC COLON
+%token <str> TYPE 
+%token <var> IDENT
+%token ASSIGN SEMIC COLON
 
 %token <integ> INT
 %token <str> CHR
@@ -45,46 +44,44 @@ extern Variables All_vars[200];
 %%
 
 variables: /* nothing */
-    | variables init_variable
+    | variables variable
     ;
 
-init_variable:
+variable:
     TYPE COLON IDENT SEMIC{
-        printf("%s : %s ;\n", $1, $3);
-        All_vars[Total_var_count].name = strdup($3);
-        All_vars[Total_var_count].type = Define_type($1);
+        $3->type = Define_type($1);
         
-        Write_in_Output__Def_Var(ofp, All_vars[Total_var_count]);
-        
-        ++Total_var_count;
+        Write_in_Output__Def_Var(ofp, $3);
 
     }
-    | TYPE COLON IDENT ASSIG value SEMIC{
-        All_vars[Total_var_count].name = strdup($3);
-        All_vars[Total_var_count].type = Define_type($1);
-        switch (All_vars[Total_var_count].type) {
+    | TYPE COLON IDENT ASSIGN value SEMIC{
+        $3->type = Define_type($1);
+        switch ($3->type) {
             case INT_T:
-                All_vars[Total_var_count].value.int_value = $5->values.integ;
+                $3->value.int_value = $5->values.integ;
                 break;
             case FLOAT_T:
-                All_vars[Total_var_count].value.float_value = $5->values.flt;
+                $3->value.float_value = $5->values.flt;
                 break;
             case CHAR_T:
-                All_vars[Total_var_count].value.char_value = $5->values.str;
+                $3->value.char_value = $5->values.str;
                 break;
             case DOUBLE_T:
-                All_vars[Total_var_count].value.double_value = $5->values.dbl;
+                $3->value.double_value = $5->values.dbl;
                 break;
             case BOOL_T:
-                All_vars[Total_var_count].value.bool_value = $5->values.boolian;
+                $3->value.bool_value = $5->values.boolian;
                 break;
 
             default:
-                printf("Unknown variable type. %s", $3);
+                printf("Unknown variable type. %s", $3->name);
         }
-        Write_in_Output__DefInit_Var(ofp, All_vars[Total_var_count]);
+        Write_in_Output__DefInit_Var(ofp, $3);
+    }
+    | IDENT ASSIGN IDENT SEMIC {
+        Assign_to_another_var($1, $3);
 
-        ++Total_var_count;
+        Write_in_Output__Redefine_Var(ofp, $1, $3);
     }
     ;
 
@@ -142,14 +139,10 @@ int main(int argc, char** argv){
 
     yyparse();
 
-    fprintf(ofp, "  return 0;\n}");
+    fprintf(ofp, "return 0;\n}");
 
     fclose(ofp);
     fclose(ifp);
-
-    for(int i = 0; i < Total_var_count; ++i){
-        free(All_vars[i].name);
-    }
     
     return 0;
 }

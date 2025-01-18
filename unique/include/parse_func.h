@@ -5,21 +5,49 @@
 #include <stdio.h>
 
 #include "types.h"
+#include "variables.h"
 
 
-/* для информации про все переменные */
-int Total_var_count = 0;
-Variables All_vars[200];
+//--------------------------
 
-/* ищет переменную по имени */
-Variables*
-Find_var(const char* name){
-    for(int i = 0; i < sizeof(All_vars); ++i){
-        if(All_vars[i].name == name){
-            return &All_vars[i];
-        }
-    }
+/* определяет тип перменной или другого объекта */
+Types
+Define_type(const char* type){
+    if(strcmp(type, "int") == 0)
+        return INT_T;
+    else if(strcmp(type, "double") == 0)
+        return DOUBLE_T;
+    else if(strcmp(type, "float") == 0)
+        return FLOAT_T;
+    else if(strcmp(type, "boolian") == 0)
+        return BOOL_T;
+    else if(strcmp(type, "char") == 0)
+        return CHAR_T;
 }
+
+/*
+верхняя функция возвращает Types
+а нижняя int
+*/
+
+int
+Define_types_int(Types type){
+    if(type == INT_T)
+        return 1;
+    else if(type == DOUBLE_T)
+        return 2;
+    else if(type == BOOL_T)
+        return 3;
+    else if(type == FLOAT_T)
+        return 4;
+    else if(type == CHAR_T)
+        return 5;
+
+    return 6;
+}
+
+//-------------------------
+
 
 /* определяет тип для его записи в выходной файл */
 char*
@@ -29,7 +57,7 @@ Define_type_for_write(Types type){
     else if(type == DOUBLE_T)
         return "double";
     else if(type == BOOL_T)
-        return "boolian";
+        return "int";
     else if(type == FLOAT_T)
         return "float";
     else if(type == CHAR_T)
@@ -41,29 +69,36 @@ Define_type_for_write(Types type){
 
 /* заносит в выходной файл объявление перменной */
 void
-Write_in_Output__Def_Var(FILE* ofp, Variables var){
-    char* type = Define_type_for_write(var.type);
-    fprintf(ofp, "  %s %s;\n", type, var.name);
+Write_in_Output__Def_Var(FILE* ofp, Variables* var){
+    char* type = Define_type_for_write(var->type);
+    fprintf(ofp, "%s %s;\n", type, var->name);
 }
 
+/* заносит в выходной файл определение с инициализацией перменной */
 void
-Write_in_Output__DefInit_Var(FILE* ofp, Variables var){
-    char* type = Define_type_for_write(var.type);
+Write_in_Output__DefInit_Var(FILE* ofp, Variables* var){
+    char* type = Define_type_for_write(var->type);
 
     if(type == "int")
-        fprintf(ofp, "  %s %s = %d;\n", type, var.name, var.value.int_value);
+        fprintf(ofp, "%s %s = %d;\n", type, var->name, var->value.int_value);
         
     else if(type == "boolian")
-        fprintf(ofp, "  %s %s = %d;\n", type, var.name, var.value.bool_value);
+        fprintf(ofp, "%s %s = %d;\n", type, var->name, var->value.bool_value);
         
     else if(type == "float")
-        fprintf(ofp, "  %s %s = %f;\n", type, var.name, var.value.float_value);
+        fprintf(ofp, "%s %s = %f;\n", type, var->name, var->value.float_value);
         
     else if(type == "double")
-        fprintf(ofp, "  %s %s = %f;\n", type, var.name, var.value.double_value);
+        fprintf(ofp, "%s %s = %f;\n", type, var->name, var->value.double_value);
         
     else if(type == "char")
-        fprintf(ofp, "  %s %s = %c;\n", type, var.name, var.value.char_value);
+        fprintf(ofp, "%s %s = %c;\n", type, var->name, var->value.char_value);
+}
+
+/* заносит в выходной файл переопределение значения перменной */
+void
+Write_in_Output__Redefine_Var(FILE* ofp, Variables* first_var, Variables* second_var){
+    fprintf(ofp, "%s = %s;\n", first_var->name, second_var->name);
 }
 
 #endif
